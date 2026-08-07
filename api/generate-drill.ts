@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http'
-import { getAnthropic, MODEL, readJsonBody, requireUser, withHandler, extractJsonBlock, HttpError } from './_shared'
+import { getAnthropic, MODEL, readJsonBody, requireUser, withHandler, extractJsonBlock, HttpError } from './_shared.js'
 
 interface DrillItemInput {
   item_type: 'vocab' | 'grammar' | 'corrected_sentence' | 'kanji'

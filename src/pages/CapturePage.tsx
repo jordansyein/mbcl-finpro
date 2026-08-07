@@ -5,15 +5,42 @@ import { useCaptureDraft } from '../context/CaptureDraftContext'
 import { N2_GRAMMAR, N2_VOCAB_THEMES, type QuickCategory } from '../data/n2Categories'
 import type { ItemDraft } from '../lib/types'
 
-function fileToBase64(file: File): Promise<string> {
+// Vercel serverless functions hard-cap the request body at 4.5MB, which a
+// full-resolution phone photo blows past once base64-encoded. Downscale and
+// re-compress client-side first — Claude's vision quality doesn't benefit
+// from more than ~1600px on the long edge anyway.
+const MAX_DIMENSION = 1600
+const JPEG_QUALITY = 0.85
+
+function resizeImageToBase64(file: File): Promise<{ base64: string; mediaType: string }> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      const result = reader.result as string
-      resolve(result.split(',')[1] ?? '')
+    const img = new Image()
+    const objectUrl = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl)
+      let { width, height } = img
+      if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+        const scale = MAX_DIMENSION / Math.max(width, height)
+        width = Math.round(width * scale)
+        height = Math.round(height * scale)
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        reject(new Error('Canvas rendering is not supported in this browser'))
+        return
+      }
+      ctx.drawImage(img, 0, 0, width, height)
+      const dataUrl = canvas.toDataURL('image/jpeg', JPEG_QUALITY)
+      resolve({ base64: dataUrl.split(',')[1] ?? '', mediaType: 'image/jpeg' })
     }
-    reader.onerror = reject
-    reader.readAsDataURL(file)
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl)
+      reject(new Error('Failed to load the photo for processing'))
+    }
+    img.src = objectUrl
   })
 }
 
@@ -46,8 +73,8 @@ export default function CapturePage() {
     setBusy(true)
     setError(null)
     try {
-      const base64 = await fileToBase64(photoFile)
-      const raw = await extractFromPhoto(base64, photoFile.type || 'image/jpeg')
+      const { base64, mediaType } = await resizeImageToBase64(photoFile)
+      const raw = await extractFromPhoto(base64, mediaType)
       if (raw.length === 0) {
         setError('No study-worthy items were found in that photo. Try a clearer shot, or use the quick-tap fallback below.')
         setBusy(false)

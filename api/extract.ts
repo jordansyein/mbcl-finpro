@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http'
-import { getAnthropic, MODEL, readJsonBody, requireUser, withHandler, extractJsonBlock, HttpError } from './_shared'
+import { getAnthropic, MODEL, readJsonBody, requireUser, withHandler, extractJsonBlock, HttpError } from './_shared.js'
 
 const EXTRACTION_PROMPT = `You are helping a JLPT N2 student capture a private Japanese lesson from a photo of their notes (handwritten notes, a textbook page, or a worksheet with tutor corrections).
 
