@@ -19,8 +19,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     const task =
       item_type === 'grammar'
-        ? `A JLPT N2 student was asked to construct a sentence using the grammar pattern/prompt: "${prompt}".`
-        : `A JLPT N2 student was asked to correct this sentence: "${prompt}".`
+        ? `A JLPT student was asked to construct a sentence using the grammar pattern/prompt: "${prompt}".`
+        : `A JLPT student was asked to correct this sentence: "${prompt}".`
     const referenceLine = expected ? `A reference correct answer is: "${expected}" (the student's answer does not need to match this exactly — any grammatically correct, natural phrasing that fulfills the task should pass).` : ''
 
     const gradePrompt = `${task} ${referenceLine}

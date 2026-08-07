@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { extractFromPhoto } from '../lib/api'
 import { useCaptureDraft } from '../context/CaptureDraftContext'
-import { N2_GRAMMAR, N2_VOCAB_THEMES, type QuickCategory } from '../data/n2Categories'
+import { JLPT_LEVELS, GRAMMAR_BY_LEVEL, VOCAB_THEMES_BY_LEVEL, type JlptLevel, type QuickCategory } from '../data/jlptCategories'
 import type { ItemDraft } from '../lib/types'
 
 // Vercel serverless functions hard-cap the request body at 4.5MB, which a
@@ -58,6 +58,7 @@ export default function CapturePage() {
   const [error, setError] = useState<string | null>(null)
 
   const [showFallback, setShowFallback] = useState(false)
+  const [level, setLevel] = useState<JlptLevel | null>(null)
   const [selected, setSelected] = useState<Set<string>>(new Set())
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -110,8 +111,14 @@ export default function CapturePage() {
     })
   }
 
+  function chooseLevel(l: JlptLevel) {
+    setLevel(l)
+    setSelected(new Set())
+  }
+
   function continueWithFallback() {
-    const all = [...N2_GRAMMAR, ...N2_VOCAB_THEMES]
+    if (!level) return
+    const all = [...GRAMMAR_BY_LEVEL[level], ...VOCAB_THEMES_BY_LEVEL[level]]
     const chosen = all.filter((c) => selected.has(`${c.item_type}:${c.label}`))
     if (chosen.length === 0) return
     const drafts: ItemDraft[] = chosen.map((c) => ({
@@ -158,24 +165,38 @@ export default function CapturePage() {
       )}
 
       <div style={{ margin: '24px 0', textAlign: 'center' }}>
-        <button className="btn btn-ghost btn-sm" onClick={() => setShowFallback((s) => !s)}>
+        <button className="btn btn-ghost btn-sm" onClick={() => { setShowFallback((s) => !s); setLevel(null) }}>
           {showFallback ? 'Hide quick-tap fallback' : "Nothing to photograph? Log points instead →"}
         </button>
       </div>
 
-      {showFallback && (
+      {showFallback && !level && (
         <div className="card">
-          <p className="card-title">Grammar points</p>
+          <p className="card-title">Which level is this lesson?</p>
+          <div className="category-grid" style={{ marginTop: 10 }}>
+            {JLPT_LEVELS.map((l) => (
+              <button key={l} className="category-chip" onClick={() => chooseLevel(l)}>{l}</button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {showFallback && level && (
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+            <p className="card-title">{level} grammar points</p>
+            <button className="btn btn-ghost btn-sm" onClick={() => setLevel(null)}>Change level</button>
+          </div>
           <div className="category-grid" style={{ marginBottom: 18 }}>
-            {N2_GRAMMAR.map((c) => (
+            {GRAMMAR_BY_LEVEL[level].map((c) => (
               <button key={c.label} className={'category-chip' + (selected.has(`${c.item_type}:${c.label}`) ? ' selected' : '')} onClick={() => toggleCategory(c)}>
                 {c.label}
               </button>
             ))}
           </div>
-          <p className="card-title">Vocab themes</p>
+          <p className="card-title">{level} vocab themes</p>
           <div className="category-grid">
-            {N2_VOCAB_THEMES.map((c) => (
+            {VOCAB_THEMES_BY_LEVEL[level].map((c) => (
               <button key={c.label} className={'category-chip' + (selected.has(`${c.item_type}:${c.label}`) ? ' selected' : '')} onClick={() => toggleCategory(c)}>
                 {c.label}
               </button>

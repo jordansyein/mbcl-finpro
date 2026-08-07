@@ -94,8 +94,9 @@ Or connect the repo in the Vercel dashboard. Either way:
 - Full pipeline: photo capture → Claude vision extraction → editable confirm
   screen with per-item confidence rating → SM-2-scheduled items → daily practice
   queue → weak-point tracking → pre-lesson briefing → lesson history with trends
-- Quick-tap MCQ fallback (common N2 grammar patterns + vocab themes) for sessions
-  with nothing to photograph, in `src/data/n2Categories.ts`
+- Quick-tap MCQ fallback (common grammar patterns + vocab themes across N5–N2)
+  for sessions with nothing to photograph — pick a level first, then categories
+  within it, in `src/data/jlptCategories.ts`
 - All four drill types: vocab cloze (exact-match), guided grammar construction
   (step-by-step, then graded), error-correction (graded), kanji recognition
   flashcards (Anki-style self-grade), each generating from — and caching onto —

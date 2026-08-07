@@ -15,12 +15,12 @@ function buildPrompt(item: DrillItemInput): string {
 
   switch (item.item_type) {
     case 'vocab':
-      return `Create a cloze-deletion drill for the N2 vocabulary word "${item.content}". ${known}
+      return `Create a cloze-deletion drill for the JLPT vocabulary word "${item.content}". ${known}
 If an example sentence is on file, reuse it verbatim and blank out the word. Otherwise write a natural, level-appropriate sentence using the word, then blank it out.
 Return ONLY JSON: {"type":"cloze","sentence_with_blank":"...(use ___ for the blank)...","answer":"${item.content}","hint":"short hint, e.g. reading or meaning","reading":"kana reading","meaning":"English meaning","example_sentence":"the full sentence with the word filled in"}`
 
     case 'grammar':
-      return `Create a guided, step-by-step sentence-construction drill for the N2 grammar pattern "${item.content}". ${known}
+      return `Create a guided, step-by-step sentence-construction drill for the JLPT grammar pattern "${item.content}". ${known}
 Don't just show a finished example — walk the student through building their own sentence: 2-4 short steps, each with a "prompt" telling them what to add/decide next and an optional "hint". End with one fully correct "target_sentence" that demonstrates the pattern (for reference, not to be shown until the student finishes).
 Return ONLY JSON: {"type":"guided_construction","pattern":"${item.content}","meaning":"what this pattern expresses","steps":[{"prompt":"...","hint":"..."}],"target_sentence":"..."}`
 
