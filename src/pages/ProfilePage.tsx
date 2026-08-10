@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabaseClient'
 import { getLessons, getAllItemsForUser, getWeakPoints } from '../lib/db'
+import OnboardingCarousel from '../components/OnboardingCarousel'
 
 export default function ProfilePage() {
   const { user } = useAuth()
   const [stats, setStats] = useState<{ lessons: number; items: number; weak: number } | null>(null)
+  const [showTutorial, setShowTutorial] = useState(false)
 
   useEffect(() => {
     if (!user) return
@@ -33,9 +35,15 @@ export default function ProfilePage() {
         </div>
       )}
 
+      <button className="btn btn-block" onClick={() => setShowTutorial(true)} style={{ marginTop: 12 }}>
+        View tutorial
+      </button>
+
       <button className="btn btn-danger btn-block" onClick={() => supabase.auth.signOut()} style={{ marginTop: 12 }}>
         Log out
       </button>
+
+      {showTutorial && <OnboardingCarousel onClose={() => setShowTutorial(false)} />}
     </div>
   )
 }

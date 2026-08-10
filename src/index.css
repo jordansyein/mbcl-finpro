@@ -246,3 +246,46 @@ h1, h2, h3, p { margin: 0 0 0.5em; }
 .item-list { list-style: none; margin: 0; padding: 0; }
 .item-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .item-row:last-child { border-bottom: none; }
+
+/* ---------- onboarding ---------- */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  padding-top: calc(32px + env(safe-area-inset-top));
+  padding-bottom: calc(32px + env(safe-area-inset-bottom));
+  text-align: center;
+}
+.onboarding-skip {
+  position: absolute;
+  top: calc(16px + env(safe-area-inset-top));
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 8px;
+}
+.onboarding-slide { max-width: 360px; }
+.onboarding-icon { font-size: 4rem; margin-bottom: 20px; line-height: 1; }
+.onboarding-slide h2 { font-size: 1.3rem; margin-bottom: 10px; }
+.onboarding-slide p { color: var(--text-dim); line-height: 1.6; }
+.onboarding-dots { display: flex; align-items: center; gap: 8px; margin: 32px 0 24px; }
+.onboarding-dot {
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: var(--border);
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.15s ease, background 0.15s ease;
+}
+.onboarding-dot--active { background: var(--accent); width: 20px; }
+.onboarding-cta { max-width: 360px; }

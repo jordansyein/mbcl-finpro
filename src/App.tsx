@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { CaptureDraftProvider } from './context/CaptureDraftContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import NavBar from './components/NavBar'
+import OnboardingCarousel from './components/OnboardingCarousel'
+import { hasSeenOnboarding, markOnboardingSeen } from './lib/onboarding'
 import LoginPage from './pages/LoginPage'
 import CapturePage from './pages/CapturePage'
 import ConfirmPage from './pages/ConfirmPage'
@@ -15,13 +18,25 @@ import LessonDetailPage from './pages/LessonDetailPage'
 import ProfilePage from './pages/ProfilePage'
 
 function Shell({ children }: { children: ReactNode }) {
-  const { session } = useAuth()
+  const { session, user } = useAuth()
   const location = useLocation()
   const showNav = !!session && location.pathname !== '/login'
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  useEffect(() => {
+    if (user && !hasSeenOnboarding(user.id)) setShowOnboarding(true)
+  }, [user])
+
+  function closeOnboarding() {
+    if (user) markOnboardingSeen(user.id)
+    setShowOnboarding(false)
+  }
+
   return (
     <div className="app-shell">
       <div className="app-content">{children}</div>
       {showNav && <NavBar />}
+      {showOnboarding && <OnboardingCarousel onClose={closeOnboarding} />}
     </div>
   )
 }
