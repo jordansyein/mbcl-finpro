@@ -166,7 +166,7 @@ export default function CapturePage() {
 
       <div style={{ margin: '24px 0', textAlign: 'center' }}>
         <button className="btn btn-ghost btn-sm" onClick={() => { setShowFallback((s) => !s); setLevel(null) }}>
-          {showFallback ? 'Hide quick-tap fallback' : "Nothing to photograph? Log points instead →"}
+          {showFallback ? 'Hide lesson menu' : "Nothing to photograph? Choose lessons instead →"}
         </button>
       </div>
 
