@@ -50,7 +50,7 @@ export default function LoginPage() {
 
       <div className="card">
         <div className="confidence-picker" style={{ marginBottom: 16 }}>
-          <button type="button" className={mode === 'password' ? 'active' : ''} data-c={mode === 'password' ? 'solid' : undefined} onClick={() => setMode('password')}>Password</button>
+          <button type="button" className={mode === 'password' ? 'active' : ''} data-c={mode === 'password' ? 'solid' : undefined} onClick={() => setMode('password')}>Log in</button>
           <button type="button" className={mode === 'magic-link' ? 'active' : ''} data-c={mode === 'magic-link' ? 'solid' : undefined} onClick={() => setMode('magic-link')}>Magic link</button>
           <button type="button" className={mode === 'signup' ? 'active' : ''} data-c={mode === 'signup' ? 'solid' : undefined} onClick={() => setMode('signup')}>Sign up</button>
         </div>
