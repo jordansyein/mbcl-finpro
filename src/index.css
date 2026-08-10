@@ -276,7 +276,7 @@ h1, h2, h3, p { margin: 0 0 0.5em; }
 .onboarding-slide { max-width: 360px; }
 .onboarding-icon { font-size: 4rem; margin-bottom: 20px; line-height: 1; }
 .onboarding-slide h2 { font-size: 1.3rem; margin-bottom: 10px; }
-.onboarding-slide p { color: var(--text-dim); line-height: 1.6; }
+.onboarding-slide p { color: var(--text-dim); line-height: 1.6; white-space: pre-line; }
 .onboarding-dots { display: flex; align-items: center; gap: 8px; margin: 32px 0 24px; }
 .onboarding-dot {
   width: 8px; height: 8px;
