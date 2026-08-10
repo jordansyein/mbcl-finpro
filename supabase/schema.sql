@@ -118,3 +118,23 @@ create policy "lesson_photos_owner_insert" on storage.objects
 drop policy if exists "lesson_photos_owner_delete" on storage.objects;
 create policy "lesson_photos_owner_delete" on storage.objects
   for delete using (bucket_id = 'lesson-photos' and auth.uid()::text = (storage.foldername(name))[1]);
+
+-- ---------------------------------------------------------------------------
+-- Auth helper: lets the client check whether the signed-in user already has
+-- a password set (vs. having only ever used magic-link auth), so the
+-- Profile page can label the action "Add password" vs "Change password".
+-- SECURITY DEFINER is required because auth.users isn't readable by the
+-- authenticated role directly; this only ever reads the caller's own row.
+-- ---------------------------------------------------------------------------
+create or replace function public.user_has_password()
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select encrypted_password is not null and encrypted_password <> ''
+  from auth.users
+  where id = auth.uid();
+$$;
+
+grant execute on function public.user_has_password() to authenticated;

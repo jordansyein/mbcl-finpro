@@ -25,8 +25,11 @@ presentable pre-lesson briefing and a lesson history with per-item accuracy tren
 2. In **Project Settings → API**, copy the **Project URL** and **anon public** key.
 3. In **SQL Editor**, run the contents of [`supabase/schema.sql`](supabase/schema.sql).
    This creates `lessons`, `items`, `review_state`, `review_history`, enables RLS with
-   owner-only policies on all four, and creates a private `lesson-photos` storage
-   bucket with per-user folder policies.
+   owner-only policies on all four, creates a private `lesson-photos` storage
+   bucket with per-user folder policies, and adds a `user_has_password()` helper
+   function the Profile page uses to tell magic-link-only accounts from
+   password accounts. Safe to re-run on an existing project — it'll just add
+   the function.
 4. Under **Authentication → Providers**, email/password is on by default. If you want
    magic links to work, make sure **Email** provider is enabled (it is by default) —
    no extra config needed for local/demo use.
