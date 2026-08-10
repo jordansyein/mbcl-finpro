@@ -1,9 +1,9 @@
 // Quick-tap fallback for sessions with nothing to photograph. Not exhaustive —
 // just enough common grammar patterns and vocab themes per level to seed a
 // manual entry. User picks a level first, then categories within it.
-export type JlptLevel = 'N5' | 'N4' | 'N3' | 'N2'
+export type JlptLevel = 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
 
-export const JLPT_LEVELS: JlptLevel[] = ['N5', 'N4', 'N3', 'N2']
+export const JLPT_LEVELS: JlptLevel[] = ['N5', 'N4', 'N3', 'N2', 'N1']
 
 export interface QuickCategory {
   item_type: 'grammar' | 'vocab'
@@ -43,6 +43,15 @@ export const GRAMMAR_BY_LEVEL: Record<JlptLevel, QuickCategory[]> = {
     '〜ばかりに', '〜べきではない', '〜ものの', '〜わけがない', '〜をきっかけに',
     '〜を通じて',
   ].map((label) => ({ item_type: 'grammar', label })),
+
+  N1: [
+    '〜あっての', '〜いかんによらず', '〜おいて', '〜が早いか', '〜がゆえに',
+    '〜かたわら', '〜からある', '〜きらいがある', '〜ずくめ', '〜ずにはおかない',
+    '〜たりとも', '〜つ〜つ', '〜てからというもの', '〜てやまない', '〜とあって',
+    '〜といえども', '〜ないまでも', '〜にあたらない', '〜にかまけて', '〜にたえない',
+    '〜に足る', '〜のいたり', '〜べからず', '〜まみれ', '〜をおいて',
+    '〜を余儀なくされる',
+  ].map((label) => ({ item_type: 'grammar', label })),
 }
 
 export const VOCAB_THEMES_BY_LEVEL: Record<JlptLevel, QuickCategory[]> = {
@@ -65,5 +74,11 @@ export const VOCAB_THEMES_BY_LEVEL: Record<JlptLevel, QuickCategory[]> = {
     'ビジネス・仕事 (business / work)', '感情・気持ち (emotions)', '社会・ニュース (society / news)', '自然・環境 (nature / environment)', '健康・医療 (health / medicine)',
     '経済・お金 (economy / money)', '人間関係 (relationships)', '教育・学校 (education)', '政治・法律 (politics / law)', 'テクノロジー (technology)',
     '敬語表現 (keigo / polite speech)', 'オノマトペ (onomatopoeia)',
+  ].map((label) => ({ item_type: 'vocab', label })),
+
+  N1: [
+    '学術・研究 (academia / research)', '政治・外交 (politics / diplomacy)', '経済・金融 (economics / finance)', '法律・司法 (law / judiciary)', '医療・福祉 (medicine / welfare)',
+    '環境問題 (environmental issues)', 'メディア・報道 (media / journalism)', '国際関係 (international relations)', '哲学・思想 (philosophy / thought)', '文学・芸術 (literature / art)',
+    'ビジネス・経営 (business / management)', '慣用句・ことわざ (idioms / proverbs)',
   ].map((label) => ({ item_type: 'vocab', label })),
 }
