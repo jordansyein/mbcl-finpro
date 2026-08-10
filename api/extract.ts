@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http'
-import { getAnthropic, MODEL, readJsonBody, requireUser, withHandler, extractJsonBlock, HttpError } from './_shared'
+import { getAnthropic, MODEL, readJsonBody, requireUser, withHandler, extractJsonBlock, HttpError } from './_shared.js'
 
-const EXTRACTION_PROMPT = `You are helping a JLPT N2 student capture a private Japanese lesson from a photo of their notes (handwritten notes, a textbook page, or a worksheet with tutor corrections).
+const EXTRACTION_PROMPT = `You are helping a JLPT student (level N5 through N2) capture a private Japanese lesson from a photo of their notes (handwritten notes, a textbook page, or a worksheet with tutor corrections).
 
 Extract every distinct study-worthy item you can identify and return ONLY a JSON object (no prose, no markdown fences) of this exact shape:
 
