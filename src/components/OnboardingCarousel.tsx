@@ -15,7 +15,7 @@ const SLIDES: Slide[] = [
   {
     icon: '📷',
     title: 'Capture a lesson',
-    body: "Snap a photo of your notes and Claude pulls out the vocab, grammar, and corrections. Nothing to photograph? Pick your level, then tap through common categories instead.",
+    body: "Snap a photo of your study notes and let the app summarize the vocab, grammar and corrections.\n\nNothing to photograph? Pick your level, then tap through common categories instead.",
   },
   {
     icon: '✅',
